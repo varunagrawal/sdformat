@@ -31,7 +31,7 @@ set (SDF_MINOR_VERSION 0)
 set (SDF_PATCH_VERSION 0)
 
 set (SDF_VERSION ${SDF_MAJOR_VERSION}.${SDF_MINOR_VERSION})
-set (SDF_VERSION_FULL ${SDF_MAJOR_VERSION}.${SDF_MINOR_VERSION}.${SDF_PATCH_VERSION}~pre2)
+set (SDF_VERSION_FULL ${SDF_MAJOR_VERSION}.${SDF_MINOR_VERSION}.${SDF_PATCH_VERSION})
 
 string (TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 string(REGEX REPLACE "[0-9]+" "" PROJECT_NAME_NO_VERSION ${PROJECT_NAME})
@@ -290,6 +290,7 @@ else (build_errors)
   set(sdf_version_output "cmake/${sdf_target}-config-version.cmake")
   set(sdf_config_install_dir "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME_LOWER}/")
 
+  include(CMakePackageConfigHelpers)
   #--------------------------------------
   # Configure and install the config file
   configure_package_config_file(
