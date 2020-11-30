@@ -864,7 +864,7 @@ bool readXml(tinyxml2::XMLElement *_xml, ElementPtr _sdf, Errors &_errors)
   {
     // Avoid printing a warning message for missing attributes if a namespaced
     // attribute is found
-    if (std::strchr(attribute->Name(), ':') != NULL)
+    if (std::strchr(attribute->Name(), ':') != nullptr)
     {
       _sdf->AddAttribute(attribute->Name(), "string", "", 1, "");
       _sdf->GetAttribute(attribute->Name())->SetFromString(
@@ -1115,7 +1115,8 @@ bool readXml(tinyxml2::XMLElement *_xml, ElementPtr _sdf, Errors &_errors)
         }
       }
 
-      if (descCounter == _sdf->GetElementDescriptionCount())
+      if (descCounter == _sdf->GetElementDescriptionCount()
+            && std::strchr(elemXml->Value(), ':') == nullptr)
       {
         sdfdbg << "XML Element[" << elemXml->Value()
                << "], child of element[" << _xml->Value()
@@ -1305,6 +1306,7 @@ void addNestedModel(ElementPtr _sdf, ElementPtr _includeSDF, Errors &_errors)
   while (elem)
   {
     if ((elem->GetName() == "link") ||
+        (elem->GetName() == "model") ||
         (elem->GetName() == "joint") ||
         (elem->GetName() == "frame"))
     {
@@ -1313,7 +1315,7 @@ void addNestedModel(ElementPtr _sdf, ElementPtr _includeSDF, Errors &_errors)
       replace[elemName] = newName;
     }
 
-    if ((elem->GetName() == "link"))
+    if ((elem->GetName() == "link") || (elem->GetName() == "model"))
     {
       // Add a pose element even if the element doesn't originally have one
       auto elemPose = elem->GetElement("pose");
