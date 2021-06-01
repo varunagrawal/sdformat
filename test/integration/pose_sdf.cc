@@ -107,7 +107,7 @@ TEST(Pose1_9, ModelPoses)
   model = world->ModelByIndex(9);
   ASSERT_NE(nullptr, model);
   ASSERT_EQ("model_with_quat_value", model->Name());
-  EXPECT_EQ(Pose(0, 0, 0, 0.7071, 0.7071, 0, 0), model->RawPose());
+  EXPECT_EQ(Pose(0, 0, 0, 0.7071068, 0.7071068, 0, 0), model->RawPose());
   // Pose quatValuePose(0, 0, 0, 0.7071, 0.7071, 0, 0);
   // EXPECT_EQ(quatValuePose, model->RawPose().Rot());
   // EXPECT_EQ(ignition::math::Vector3d::Zero, model->RawPose().Pos());

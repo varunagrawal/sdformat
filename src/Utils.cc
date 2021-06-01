@@ -119,7 +119,7 @@ bool loadPose(sdf::ElementPtr _sdf, ignition::math::Pose3d &_pose,
       if (rpyRadPair.second)
         pose.Set(pose.Pos(), rpyRadPair.first);
     }
-    else if (typePair.first == "q_xyzw")
+    else if (typePair.first == "q_wxyz")
     {
       std::cout << "found quat" << std::endl;
       std::pair<ignition::math::Quaterniond, bool> quatPair =

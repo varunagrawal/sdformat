@@ -63,7 +63,7 @@
 
     <model name="model_with_quat_value">
       <pose>
-        <rotation type="q_xyzw">0.7071 0 0 0.7071</rotation>
+        <rotation type="q_wxyz">0.7071068 0.7071068 0 0</rotation>
       </pose>
       <link name="link"/>
     </model>
