@@ -40,6 +40,7 @@ set(tests
   plugin_bool.cc
   plugin_include.cc
   pose_1_9_sdf.cc
+  pose_snapping_rotation.cc
   provide_feedback.cc
   root_dom.cc
   scene_dom.cc

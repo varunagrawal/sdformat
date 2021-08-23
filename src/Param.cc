@@ -520,8 +520,24 @@ bool ParsePoseUsingStringStream(const std::string &_input,
   }
   else
   {
+    // Returns a snapped value if it is within epsilon distance of multiples
+    // of interval, otherwise the orginal value is returned.
+    auto snapToInterval =
+        [](double value, double interval, double epsilon)
+    {
+      int quotient = 0;
+      double remainder = std::remquo(value, interval, &quotient);
+
+      if (abs(remainder) < epsilon)
+        return interval * quotient;
+      else
+        return value;
+    };
+
     _value = ignition::math::Pose3d(values[0], values[1], values[2],
-        values[3], values[4], values[5]);
+        IGN_DTOR(snapToInterval(IGN_RTOD(values[3]), 45, 0.1)),
+        IGN_DTOR(snapToInterval(IGN_RTOD(values[4]), 45, 0.1)),
+        IGN_DTOR(snapToInterval(IGN_RTOD(values[5]), 45, 0.1)));
   }
   return true;
 }
