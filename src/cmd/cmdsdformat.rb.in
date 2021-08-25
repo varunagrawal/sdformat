@@ -165,9 +165,9 @@ class Cmd
             exit(Importer.cmdPrint(File.expand_path(options['print'])))
           elsif ARGV.length == 2
             Importer.extern 'int cmdPrintWithOption(const char *, const char *)'
-            exit(Importer.cmdPrintWithOption(option['print'], File.expand_path(ARGV[1])))
+            exit(Importer.cmdPrintWithOption(options['print'], File.expand_path(ARGV[1])))
           else
-            puts 'Print error: must have 1 or 2 arguments after -p.'
+            puts 'Print error: must have 1 or 2 arguments after -p, --print.'
           end
         elsif options.key?('graph')
           Importer.extern 'int cmdGraph(const char *, const char *)'

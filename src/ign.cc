@@ -164,7 +164,7 @@ extern "C" SDFORMAT_VISIBLE int cmdPrint(const char *_path)
 //////////////////////////////////////////////////
 // cppcheck-suppress unusedFunction
 extern "C" SDFORMAT_VISIBLE int cmdPrintWithOption(
-    const char *_option, char *_path)
+    const char *_option, const char *_path)
 {
   if (!sdf::filesystem::exists(_path))
   {
