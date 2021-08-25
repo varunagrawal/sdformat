@@ -163,10 +163,8 @@ extern "C" SDFORMAT_VISIBLE int cmdPrint(const char *_path)
 
 //////////////////////////////////////////////////
 // cppcheck-suppress unusedFunction
-extern "C" SDFORMAT_VISIBLE int cmdPrintInDegrees(
-    const char *_path,
-    int snapToDegreesInterval,
-    double snapToDegreesEpsilon)
+extern "C" SDFORMAT_VISIBLE int cmdPrintWithOption(
+    const char *_option, char *_path)
 {
   if (!sdf::filesystem::exists(_path))
   {
@@ -190,8 +188,7 @@ extern "C" SDFORMAT_VISIBLE int cmdPrintInDegrees(
 
   sdf->PrintValues();
 
-  (void)snapToDegreesInterval;
-  (void)snapToDegreesEpsilon; 
+  (void)_option;
   return 0;
 }
 

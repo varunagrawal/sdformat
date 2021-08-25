@@ -42,15 +42,7 @@ COMMANDS = {  'sdf' =>
                        "  -d [ --describe ] [SPEC VERSION]  Print the aggregated SDFormat spec description. Default version (@SDF_PROTOCOL_VERSION@).\n" +
                        "  -g [ --graph ] <pose, frame> arg  Print the PoseRelativeTo or FrameAttachedTo graph. (WARNING: This is for advanced\n" +
                        "                                    use only and the output may change without any promise of stability)\n" +
-                       "  -p [ --print ] arg                Print converted arg. Option for rotation angles to be in degrees for readability, see --degrees.\n" +
-                       "  --degrees arg                     Rotations are printed in degrees. Note, this is used only in the print option, -p.\n" +
-                       "  --degrees-snap-to arg             Snap rotation angles to multiples of this interval in degrees for readability,\n" +
-                       "                                    if absolute angle differences are less than 'degrees_snap_within'.\n" +
-                       "                                    Note, this is used only in the print option, -p, when degrees is enabled, --degrees.\n" +
-                       "                                    Default value as 45.\n" +
-                       "  --degrees-snap-within arg         Snaps rotation angles if absolute difference is less than this option.\n" +
-                       "                                    Note, this is used only in the print option, -p, when degrees is enabled, --degrees.\n" +
-                       "                                    Default value as 0.1.\n" +
+                       "  -p [ --print ] <in_degrees> arg   Print converted arg. Option for rotation angles to be in degrees for readability.\n" +
                        COMMON_OPTIONS
             }
 
@@ -64,9 +56,6 @@ class Cmd
   #
   def parse(args)
     options = {}
-    options['degrees'] = false
-    options['degrees_snap_to'] = 45
-    options['degrees_snap_within'] = 0.1
 
     usage = COMMANDS[args[0]]
 
@@ -93,17 +82,6 @@ class Cmd
       opts.on('-g arg', '--graph type', String,
               'Print PoseRelativeTo or FrameAttachedTo graph') do |graph_type|
         options['graph'] = {:type => graph_type}
-      end
-      opts.on('--degrees', 'Prints rotations in degrees') do |degrees|
-        options['degrees'] = degrees
-      end
-      opts.on('--degrees-snap-to arg', Integer,
-              'Snaps rotation angles to multiples of this interval in degrees') do |degrees_snap_to|
-        options['degrees_snap_to'] = {:type => degrees_snap_to}
-      end
-      opts.on('--degrees-snap-within arg', Float,
-              'Snaps rotation angles if absolute difference is less than this value degrees') do |degrees_snap_within|
-        options['degrees_snap_within'] = {:type => degrees_snap_within}
       end
     end
     begin
@@ -182,12 +160,14 @@ class Cmd
           Importer.extern 'int cmdDescribe(const char *)'
           exit(Importer.cmdDescribe(options['describe']))
         elsif options.key?('print')
-          if options.key?('degrees') and options['degrees']
-            Importer.extern 'int cmdPrintInDegrees(const char *, int, double)'
-            exit(Imported.cmdPrintInDegrees(File.expand_path(options['print']), options['degrees_snap_to'], options['degrees_snap_within']))
-          else
+          if ARGV.length == 1
             Importer.extern 'int cmdPrint(const char *)'
             exit(Importer.cmdPrint(File.expand_path(options['print'])))
+          elsif ARGV.length == 2
+            Importer.extern 'int cmdPrintWithOption(const char *, const char *)'
+            exit(Importer.cmdPrintWithOption(option['print'], File.expand_path(ARGV[1])))
+          else
+            puts 'Print error: must have 1 or 2 arguments after -p.'
           end
         elsif options.key?('graph')
           Importer.extern 'int cmdGraph(const char *, const char *)'
